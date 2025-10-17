@@ -96,10 +96,25 @@ class MainActivity : AppCompatActivity() {
         Log.d(TAG, "Added student: $studentName (Total: ${studentList.size})")
     }
     private fun clearAllStudents() {
-
+        if(studentList.isEmpty()) {
+            Toast.makeText(this, "List is already empty", Toast.LENGTH_SHORT).show()
+            return
+        }
+        val count = studentList.size
+        studentList.clear()
+        adapter.notifyDataSetChanged()
+        updateStudentCount()
+        Toast.makeText(this, "Cleared all $count students", Toast.LENGTH_SHORT).show()
+        Log.d(TAG, "Cleared all $count students (Total cleared: $count)")
     }
     private fun removeStudent(position: Int) {
-
+        if(position >= 0 && position < studentList.size) {
+            val removedStudent = studentList.removeAt(position)
+            adapter.notifyDataSetChanged()
+            updateStudentCount()
+            Toast.makeText(this, "removed $removedStudent", Toast.LENGTH_SHORT).show()
+            Log.d(TAG, "Removed student: $removedStudent (Remaining: ${studentList.size})")
+        }
     }
 
     private fun updateStudentCount() {
